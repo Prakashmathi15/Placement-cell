@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import jdArray from "./Students/MyData";
 import "../App.css";
-   
 
 function Home() {
     const [data, setData] = useState(jdArray);
@@ -12,15 +11,19 @@ function Home() {
         CompanyName: "",
         CompanyCategory: "",
         JDdate: "",
-        Domain: ""
+        Domain: "",
+        Package: "",
+        Experience: ""
     });
 
-    function setId(id, CompanyName, CompanyCategory, JDdate, Domain) {
+    function setId(id, CompanyName, CompanyCategory, JDdate, Domain, Package, Experience) {
         localStorage.setItem("id", id);
         localStorage.setItem("CompanyName", CompanyName);
         localStorage.setItem("CompanyCategory", CompanyCategory);
         localStorage.setItem("JDdate", JDdate);
         localStorage.setItem("Domain", Domain);
+        localStorage.setItem("Package", Package);
+        localStorage.setItem("Experience", Experience);
     }
 
     function deleted(id, e) {
@@ -50,28 +53,33 @@ function Home() {
     }
 
     return (
-        <div style={{ margin: "2rem" }} >
-            <h1 className="text-center" style={{color:'red',fontWeight:500}}>Company Data</h1>
-            <table >
+        <div style={{ margin: "2rem" }}>
+            <h1 className="text-center" style={{ color: 'red', fontWeight: 500 }}>Company Data</h1>
+            <table>
                 <thead>
                     <tr className="heading">
-                        <th >Company Name</th>
+                        <th>Company Name</th>
                         <th>Category</th>
                         <th>Job Date</th>
                         <th>Domain</th>
+                        <th>Package</th>
+                        <th>Experience</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {data.map((item, index) => (
-                        <tr key={index} onClick={() => setId(item.id, item.CompanyName, item.CompanyCategory, item.JDdate, item.Domain)}>
+                        <tr key={index} onClick={() => setId(item.id, item.CompanyName, item.CompanyCategory, item.JDdate, item.Domain, item.Package, item.Experience)}>
                             <td>{item.CompanyName}</td>
                             <td>{item.CompanyCategory}</td>
                             <td>{item.JDdate instanceof Date ? item.JDdate.toLocaleDateString() : item.JDdate}</td>
                             <td>{item.Domain}</td>
+                            <td>{item.Package}</td>
+                            <td>{item.Experience}</td>
                             <td>
-                                <button onClick={(e) => handleEditClick(item, e)}>Edit</button>
-                                <button onClick={(e) => deleted(item.id, e)}>Delete</button>
+                                <button class="b" onClick={(e) => handleEditClick(item, e)} style={{color:"red"}}>Edit</button>
+                            
+                                <button  class="b" onClick={(e) => deleted(item.id, e)}>Delete</button>
                             </td>
                         </tr>
                     ))}
@@ -81,7 +89,7 @@ function Home() {
             {showModal && (
                 <div>
                     <div>
-                        <h2 class="heading">Edit Company Data</h2>
+                        <h2 className="heading">Edit Company Data</h2>
                         <label>Company Name:</label>
                         <input type="text" name="CompanyName" value={formData.CompanyName} onChange={handleChange} />
                         <label>Category:</label>
@@ -90,6 +98,10 @@ function Home() {
                         <input type="text" name="JDdate" value={formData.JDdate} onChange={handleChange} />
                         <label>Domain:</label>
                         <input type="text" name="Domain" value={formData.Domain} onChange={handleChange} />
+                        <label>Package:</label>
+                        <input type="text" name="Package" value={formData.Package} onChange={handleChange} />
+                        <label>Experience:</label>
+                        <input type="text" name="Experience" value={formData.Experience} onChange={handleChange} />
 
                         <button onClick={handleSave}>Save</button>
                         <button onClick={() => setShowModal(false)}>Cancel</button>
